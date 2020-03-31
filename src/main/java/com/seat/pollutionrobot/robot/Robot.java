@@ -12,17 +12,23 @@ public class Robot {
 
     private String polyline;
     private String actualPosition;
-    private double polylineDistance;
+    private double polylineLength;
+    private double currentDistance;
 
+    private long timeSendInterval = 900000; //15 minutes in milliseconds
+    private double distanceRegistrationInterval = 100; //in meters
     private double speed = 2;
-    private double actualDistance;
 
     private long startTimestamp;
     private long currentTimestamp;
-    private double ongoingTime;
+    private long ongoingTime;
+
+    private double distanceOnLastRegister;
+    private long timeOnLastRegister;
 
     public void start() {
         startTimestamp = new Date().getTime();
+        polylineLength = distanceCalculator.getPolylineDistance();
         isRobotOn = true;
         robotIsOn();
     }
@@ -31,40 +37,81 @@ public class Robot {
         isRobotOn = false;
     }
 
-    public String report() {
-        return null;
-    }
-
     public double readActualPosition() {
         FakeGPS fakeGPS = new FakeGPS(polyline);
-        fakeGPS.getActualPosition();
+        return Double.parseDouble(null);
     }
 
     public void setPolyline(String polyline) {
         this.polyline = polyline;
     }
 
-    public double getActualDistance() {
-        actualDistance = distanceCalculator.getActualDistance(speed, ongoingTime);
-        return actualDistance;
+    public double getCurrentDistance() {
+        currentDistance = distanceCalculator.getActualDistance(speed, ongoingTime);
+        return currentDistance;
     }
 
     public void setSpeed(double speed) {
-        this.speed = speed;
+        if (speed < 1 || speed > 3) {
+            //TODO throw Exception so User can see a message
+        } else {
+            this.speed = speed;
+        }
     }
 
 
 
     private void robotIsOn() {
         while (isRobotOn) {
-            currentTimestamp = new Date().getTime();
+            updateTime();
+            updateActualDistance();
 
+            stopIfPolylineHasEnded();
+            makeRegistrationIfNeeded();
+            sendRegistersMeanIfNeeded();
         }
     }
 
-    private long getOngoingTime() {
+    private void stopIfPolylineHasEnded() {
+        if (currentDistance >= polylineLength) {
+            stop();
+        }
+    }
+
+
+    private void updateTime() {
+        currentTimestamp = new Date().getTime();
         ongoingTime = currentTimestamp - startTimestamp;
-        return getOngoingTime();
+    }
+
+    private void updateActualDistance() {
+        currentDistance = speed * ongoingTime;
+    }
+
+    private void makeRegistrationIfNeeded() {
+        double distanceSinceLastRegister = currentDistance - distanceOnLastRegister;
+        if (distanceSinceLastRegister >= distanceRegistrationInterval) {
+            doPollutionRegistration();
+            distanceOnLastRegister = currentDistance;
+        }
+    }
+
+
+    private void sendRegistersMeanIfNeeded() {
+        long timeSinceLastSend = currentTimestamp - timeOnLastRegister;
+        if (timeSinceLastSend >= timeSendInterval) {
+            doSendPollutionInformation();
+            timeOnLastRegister = currentTimestamp;
+        }
+    }
+
+
+
+    private void doPollutionRegistration() {
+        //TODO pollution registration
+    }
+    private void doSendPollutionInformation() {
+        //TODO send pollution information
     }
 
 }
