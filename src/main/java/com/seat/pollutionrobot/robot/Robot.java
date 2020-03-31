@@ -1,6 +1,8 @@
 package com.seat.pollutionrobot.robot;
 
-import com.seat.pollutionrobot.fake_gps.FakeGPS;
+import com.google.maps.model.LatLng;
+import com.seat.pollutionrobot.gps.GPS;
+import com.seat.pollutionrobot.gps.impl.FakeGPS;
 
 import java.util.Date;
 
@@ -11,7 +13,7 @@ public class Robot {
     private boolean isRobotOn;
 
     private String polyline;
-    private String actualPosition;
+    private LatLng actualPosition;
     private double polylineLength;
     private double currentDistance;
 
@@ -37,9 +39,9 @@ public class Robot {
         isRobotOn = false;
     }
 
-    public double readActualPosition() {
-        FakeGPS fakeGPS = new FakeGPS(polyline);
-        return Double.parseDouble(null);
+    public LatLng getActualPosition() {
+        GPS fakeGPS = new FakeGPS(polyline, ongoingTime, speed);
+        return fakeGPS.getLocation();
     }
 
     public void setPolyline(String polyline) {
