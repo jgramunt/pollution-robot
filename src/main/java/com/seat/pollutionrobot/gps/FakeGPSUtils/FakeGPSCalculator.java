@@ -1,4 +1,4 @@
-package com.seat.pollutionrobot.gps.impl.FakeGPSUtils;
+package com.seat.pollutionrobot.gps.FakeGPSUtils;
 
 import com.google.maps.model.LatLng;
 

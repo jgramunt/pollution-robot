@@ -8,13 +8,13 @@ public class RobotMemory {
 
     public boolean isRobotOn;
 
-    public String polyline = "";
+    public String polyline = "mpjyHx`i@VjAVKnAh@BHHX@LZR@Bj@Ml@WWc@]w@bAyAfBmCb@o@pLeQfCsDVa@@ODQR}AJ{A?{BGuAD_@FKb@MTUX]Le@^kBVcAVo@Ta@|EaFh@m@FWaA{DCo@q@mCm@cC{A_GWeA}@sGSeAcA_EOSMa@}A_GsAwFkAiEoAaFaBoEGo@]_AIWW{AQyAUyBQqAI_BFkEd@aHZcDlAyJLaBPqDDeD?mBEiA}@F]yKWqGSkICmCIeZIuZi@_Sw@{WgAoXS{DOcAWq@KQGIFQDGn@Y`@MJEFIHyAVQVOJGHgFRJBBCCSKBcAKoACyA?m@^yVJmLJ{FGGWq@e@eBIe@Ei@?q@Bk@Hs@Le@Rk@gCuIkJcZsDwLd@g@Oe@o@mB{BgHQYq@qBQYOMSMGBUBGCYc@E_@H]DWJST?JFFHBDNBJ?LED?LBv@WfAc@@EDGNK|@e@hAa@`Bk@b@OEk@Go@IeACoA@a@PyB`@yDDc@e@K{Bi@oA_@w@]m@_@]QkBoAwC{BmAeAo@s@uAoB_AaBmAwCa@mAo@iCgAwFg@iDq@}G[uEU_GBuP@cICmA?eI?qCB{FBkCI}BOyCMiAGcAC{AN{YFqD^}FR}CNu@JcAHu@b@_E`@}DVsB^mBTsAQKkCmAg@[YQOIOvAi@[m@e@s@g@GKCKAEJIn@g@GYGIc@ScBoAf@{A`@uAlBfAG`@";
     public List<LatLng> polylinePointList;
     public LatLng actualPosition;
     public double polylineLength;
     public double currentDistance;
 
-    public long timeSendInterval = 900000; //15 minutes in milliseconds
+    public long timeSendInterval = 1000; //15 minutes in milliseconds = 900000
     public double distanceRegistrationInterval = 100; //in meters
     public double speed = 2;
 
@@ -25,99 +25,8 @@ public class RobotMemory {
     public double distanceOnLastRegister;
     public long timeOnLastRegister;
 
-    public String getPolyline() {
-        return polyline;
-    }
+    public long stopTimestamp;
+    public double stopCurrentDistance;
 
-    public void setPolyline(String polyline) {
-        this.polyline = polyline;
-    }
-
-    public LatLng getActualPosition() {
-        return actualPosition;
-    }
-
-    public void setActualPosition(LatLng actualPosition) {
-        this.actualPosition = actualPosition;
-    }
-
-    public double getPolylineLength() {
-        return polylineLength;
-    }
-
-    public void setPolylineLength(double polylineLength) {
-        this.polylineLength = polylineLength;
-    }
-
-    public double getCurrentDistance() {
-        return currentDistance;
-    }
-
-    public void setCurrentDistance(double currentDistance) {
-        this.currentDistance = currentDistance;
-    }
-
-    public long getTimeSendInterval() {
-        return timeSendInterval;
-    }
-
-    public void setTimeSendInterval(long timeSendInterval) {
-        this.timeSendInterval = timeSendInterval;
-    }
-
-    public double getDistanceRegistrationInterval() {
-        return distanceRegistrationInterval;
-    }
-
-    public void setDistanceRegistrationInterval(double distanceRegistrationInterval) {
-        this.distanceRegistrationInterval = distanceRegistrationInterval;
-    }
-
-    public double getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(double speed) {
-        this.speed = speed;
-    }
-
-    public long getStartTimestamp() {
-        return startTimestamp;
-    }
-
-    public void setStartTimestamp(long startTimestamp) {
-        this.startTimestamp = startTimestamp;
-    }
-
-    public long getCurrentTimestamp() {
-        return currentTimestamp;
-    }
-
-    public void setCurrentTimestamp(long currentTimestamp) {
-        this.currentTimestamp = currentTimestamp;
-    }
-
-    public long getOngoingTime() {
-        return ongoingTime;
-    }
-
-    public void setOngoingTime(long ongoingTime) {
-        this.ongoingTime = ongoingTime;
-    }
-
-    public double getDistanceOnLastRegister() {
-        return distanceOnLastRegister;
-    }
-
-    public void setDistanceOnLastRegister(double distanceOnLastRegister) {
-        this.distanceOnLastRegister = distanceOnLastRegister;
-    }
-
-    public long getTimeOnLastRegister() {
-        return timeOnLastRegister;
-    }
-
-    public void setTimeOnLastRegister(long timeOnLastRegister) {
-        this.timeOnLastRegister = timeOnLastRegister;
-    }
+    public List<Integer> registeredValuesSinceLastRead;
 }
