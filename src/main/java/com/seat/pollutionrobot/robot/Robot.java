@@ -8,63 +8,43 @@ import java.util.Date;
 
 public class Robot {
 
-    private DistanceCalculator distanceCalculator = new DistanceCalculator();
-
-    private boolean isRobotOn;
-
-    private String polyline;
-    private LatLng actualPosition;
-    private double polylineLength;
-    private double currentDistance;
-
-    private long timeSendInterval = 900000; //15 minutes in milliseconds
-    private double distanceRegistrationInterval = 100; //in meters
-    private double speed = 2;
-
-    private long startTimestamp;
-    private long currentTimestamp;
-    private long ongoingTime;
-
-    private double distanceOnLastRegister;
-    private long timeOnLastRegister;
+    private RobotMemory m = new RobotMemory();
 
     public void start() {
-        startTimestamp = new Date().getTime();
-        polylineLength = distanceCalculator.getPolylineDistance();
-        isRobotOn = true;
+        m.startTimestamp = new Date().getTime();
+        m.isRobotOn = true;
         robotIsOn();
     }
 
     public void stop() {
-        isRobotOn = false;
+        m.isRobotOn = false;
     }
 
     public LatLng getActualPosition() {
-        GPS fakeGPS = new FakeGPS(polyline, ongoingTime, speed);
+        GPS fakeGPS = new FakeGPS(m);
         return fakeGPS.getLocation();
     }
 
     public void setPolyline(String polyline) {
-        this.polyline = polyline;
+        m.polyline = polyline;
     }
 
     public double getCurrentDistance() {
-        currentDistance = distanceCalculator.getActualDistance(speed, ongoingTime);
-        return currentDistance;
+        return Double.parseDouble(null);
     }
 
     public void setSpeed(double speed) {
         if (speed < 1 || speed > 3) {
             //TODO throw Exception so User can see a message
         } else {
-            this.speed = speed;
+            m.speed = speed;
         }
     }
 
 
 
     private void robotIsOn() {
-        while (isRobotOn) {
+        while (m.isRobotOn) {
             updateTime();
             updateActualDistance();
 
@@ -75,35 +55,35 @@ public class Robot {
     }
 
     private void stopIfPolylineHasEnded() {
-        if (currentDistance >= polylineLength) {
+        if (m.currentDistance >= m.polylineLength) {
             stop();
         }
     }
 
 
     private void updateTime() {
-        currentTimestamp = new Date().getTime();
-        ongoingTime = currentTimestamp - startTimestamp;
+        m.currentTimestamp = new Date().getTime();
+        m.ongoingTime = m.currentTimestamp - m.startTimestamp;
     }
 
     private void updateActualDistance() {
-        currentDistance = speed * ongoingTime;
+        m.currentDistance = m.speed * m.ongoingTime;
     }
 
     private void makeRegistrationIfNeeded() {
-        double distanceSinceLastRegister = currentDistance - distanceOnLastRegister;
-        if (distanceSinceLastRegister >= distanceRegistrationInterval) {
+        double distanceSinceLastRegister = m.currentDistance - m.distanceOnLastRegister;
+        if (distanceSinceLastRegister >= m.distanceRegistrationInterval) {
             doPollutionRegistration();
-            distanceOnLastRegister = currentDistance;
+            m.distanceOnLastRegister = m.currentDistance;
         }
     }
 
 
     private void sendRegistersMeanIfNeeded() {
-        long timeSinceLastSend = currentTimestamp - timeOnLastRegister;
-        if (timeSinceLastSend >= timeSendInterval) {
+        long timeSinceLastSend = m.currentTimestamp - m.timeOnLastRegister;
+        if (timeSinceLastSend >= m.timeSendInterval) {
             doSendPollutionInformation();
-            timeOnLastRegister = currentTimestamp;
+            m.timeOnLastRegister = m.currentTimestamp;
         }
     }
 

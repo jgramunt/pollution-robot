@@ -4,36 +4,30 @@ import com.google.maps.model.EncodedPolyline;
 import com.google.maps.model.LatLng;
 import com.seat.pollutionrobot.gps.GPS;
 import com.seat.pollutionrobot.gps.impl.FakeGPSUtils.FakeGPSCalculator;
-
-import java.util.List;
+import com.seat.pollutionrobot.robot.RobotMemory;
 
 public class FakeGPS implements GPS {
 
-    double speed;
-    long ongoingTime;
-    List<LatLng> pointList;
+    RobotMemory m;
     FakeGPSCalculator calculator = new FakeGPSCalculator();
 
-    double actualDistance;
-
-    public FakeGPS(String polyline, long ongoingTime, double speed) {
-        this.ongoingTime = ongoingTime;
-        this.speed = speed;
-        calculateWalkedDistance();
-        getPointListFromPolyline(polyline);
+    public FakeGPS(RobotMemory robotMemory) {
+        this.m = robotMemory;
+        calculateCurrentDistance();
+        getPointListFromPolyline(m.polyline);
     }
 
     @Override
     public LatLng getLocation() {
-        return calculator.calculateActualPositionOfPolylineFromDistance(pointList, actualDistance);
+        return calculator.calculateActualPositionOfPolylineFromDistance(m.polylinePointList, m.currentDistance);
     }
 
     public double getPolylineDistance() {
         double totalMeters = 0;
-        LatLng pointOrigin = pointList.get(0);
+        LatLng pointOrigin = m.polylinePointList.get(0);
         LatLng pointDestination;
-        for (LatLng point : pointList) {
-            if (point == pointList.get(0)) {
+        for (LatLng point : m.polylinePointList) {
+            if (point == m.polylinePointList.get(0)) {
                 continue;
             }
             pointDestination = point;
@@ -43,13 +37,13 @@ public class FakeGPS implements GPS {
         return totalMeters;
     }
 
-    private void calculateWalkedDistance() {
-        actualDistance = (ongoingTime / 1000) * speed;
+    private void calculateCurrentDistance() {
+        m.currentDistance = (m.ongoingTime / 1000) * m.speed;
     }
 
     private void getPointListFromPolyline(String polyline) {
         EncodedPolyline encodedPolyline = new EncodedPolyline(polyline);
-        pointList = encodedPolyline.decodePath();
+        m.polylinePointList = encodedPolyline.decodePath();
     }
 
 
