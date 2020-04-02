@@ -9,12 +9,14 @@ import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.inject.Singleton;
 
 
+@Named
 public class ReportListener {
 
-
-    private ReportPublisher reportPublisher = new ReportPublisher();
+    @Inject
+    private ReportPublisher reportPublisher;
 
     ObjectMapper om = new ObjectMapper();
 

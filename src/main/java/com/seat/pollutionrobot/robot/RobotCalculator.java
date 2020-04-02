@@ -1,7 +1,9 @@
 package com.seat.pollutionrobot.robot;
 
+import javax.inject.Named;
 import java.util.List;
 
+@Named
 public class RobotCalculator {
 
     public String getPollutionValuesMeanRange(List<Integer> registeredValuesSinceLastRead) {

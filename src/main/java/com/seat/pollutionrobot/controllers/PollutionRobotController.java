@@ -13,19 +13,19 @@ import java.io.IOException;
 @Controller
 public class PollutionRobotController {
 
-    @Autowired
-    private PollutionRobotServices pollutionRobotServices;
-
-    @ResponseStatus(HttpStatus.OK)
-    @GetMapping(value = "/questions/{languageCode}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String getResultsByLanguage(@PathVariable String languageCode) throws IOException {
-        return null;
-    }
-
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    @PostMapping(value = "/uploadFile/{languageCode}")
-    public String uploadAssignmentsFile(@PathVariable String languageCode, @RequestParam("file") MultipartFile xlsxFile) {
-        return null;
-    }
+//    @Autowired
+//    private PollutionRobotServices pollutionRobotServices;
+//
+//    @ResponseStatus(HttpStatus.OK)
+//    @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+//    public String getR(@PathVariable String l) {
+//        return null;
+//    }
+//
+//    @ResponseStatus(HttpStatus.ACCEPTED)
+//    @PostMapping(value = "/")
+//    public String uploadAssignmentsFile(@PathVariable String l, @RequestParam("") String s) {
+//        return null;
+//    }
 
 }

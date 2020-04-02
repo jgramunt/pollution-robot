@@ -16,20 +16,21 @@ import java.util.List;
 
 public class Robot {
 
-//    private RobotMemory m = new RobotMemory();
+    private ReportListener reportListener;
+    private RobotCalculator robotCalculator;
+
+    private ParticulateMatterReader pmReader = new ParticulateMatterReader();
 
     private volatile boolean isRobotOn;
 
-    private ParticulateMatterReader pmReader = new ParticulateMatterReader();
-    private RobotCalculator robotCalculator = new RobotCalculator();
-
     private String polyline;
-    private List<LatLng> polylinePointList;
     private LatLng actualPosition;
     private double polylineLength;
+
+
     private double currentDistance;
 
-    private long timeSendInterval = 1000; //15 minutes in milliseconds = 900000
+    private long timeSendInterval = 1000;// 900000; //15 minutes in milliseconds = 900000
     private double distanceRegistrationInterval = 10; //in meters
     private double speed = 2;
 
@@ -42,14 +43,11 @@ public class Robot {
 
     private List<Integer> registeredValuesSinceLastRead = new ArrayList<>();
 
-    // Reporta las posiciones cada 100 metros
-//    @Autowired
-//    private positionListener positionListener;
 
-    private ReportListener reportListener = new ReportListener();
-
-    public Robot(String polyline) {
+    public Robot(String polyline, ReportListener reportListener, RobotCalculator robotCalculator) {
         this.polyline = polyline;
+        this.reportListener = reportListener;
+        this.robotCalculator = robotCalculator;
     }
 
 
@@ -63,6 +61,12 @@ public class Robot {
 
     public void stop() {
         isRobotOn = false;
+    }
+
+    public void reset() {
+        isRobotOn = false;
+        ongoingTime = 0;
+        currentDistance = 0;
     }
 
     public void setSpeed(double speed) {
@@ -129,7 +133,7 @@ public class Robot {
         }
     }
 
-    private void doSendPollutionInformation() {
+    public void doSendPollutionInformation() {
         FakeGPS fakeGPS = new FakeGPS(polyline, ongoingTime, speed);
         actualPosition = fakeGPS.getActualPosition();
 
@@ -141,6 +145,27 @@ public class Robot {
 
         reportListener.publishRobotReport(robotReport);
         registeredValuesSinceLastRead = new ArrayList<>();
+    }
+
+
+    public boolean isRobotOn() {
+        return isRobotOn;
+    }
+
+    public String getPolyline() {
+        return polyline;
+    }
+
+    public double getCurrentDistance() {
+        return currentDistance;
+    }
+
+    public double getSpeed() {
+        return speed;
+    }
+
+    public long getOngoingTime() {
+        return ongoingTime;
     }
 
 }
