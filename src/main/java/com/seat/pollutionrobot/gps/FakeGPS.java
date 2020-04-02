@@ -2,8 +2,7 @@ package com.seat.pollutionrobot.gps;
 
 import com.google.maps.model.EncodedPolyline;
 import com.google.maps.model.LatLng;
-import com.seat.pollutionrobot.gps.FakeGPSUtils.FakeGPSCalculator;
-import com.seat.pollutionrobot.robot.RobotMemory;
+import com.seat.pollutionrobot.gps.fake_gps_utils.FakeGPSCalculator;
 
 import java.util.List;
 

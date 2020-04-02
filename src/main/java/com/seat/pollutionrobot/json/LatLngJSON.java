@@ -1,9 +1,9 @@
-package com.seat.pollutionrobot.dto;
+package com.seat.pollutionrobot.json;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class LatLngDTO {
+public class LatLngJSON {
 
     private double lat;
     private double lng;

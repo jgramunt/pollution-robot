@@ -1,12 +1,12 @@
-package com.seat.pollutionrobot.dto;
+package com.seat.pollutionrobot.entities;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
+import com.google.maps.model.LatLng;
+import com.seat.pollutionrobot.json.LatLngJSON;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class InformationOutputDTO {
+public class RobotReport {
 
     private long timestamp;
-    private LatLngDTO location;
+    private LatLng location;
     private String level;
     private String source;
 
@@ -18,11 +18,11 @@ public class InformationOutputDTO {
         this.timestamp = timestamp;
     }
 
-    public LatLngDTO getLocation() {
+    public LatLng getLocation() {
         return location;
     }
 
-    public void setLocation(LatLngDTO location) {
+    public void setLocation(LatLng location) {
         this.location = location;
     }
 
