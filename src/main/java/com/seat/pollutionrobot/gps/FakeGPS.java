@@ -45,7 +45,11 @@ public class FakeGPS {
 
     private void setPointListFromPolyline() {
         EncodedPolyline encodedPolyline = new EncodedPolyline(polyline);
-        polylinePointList = encodedPolyline.decodePath();
+        try {
+            polylinePointList = encodedPolyline.decodePath();
+        } catch (Exception e) {
+            //TODO throw Exception
+        }
     }
 
     private void setPolylineDistance() {

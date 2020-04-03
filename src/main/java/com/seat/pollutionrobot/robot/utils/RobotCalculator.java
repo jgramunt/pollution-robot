@@ -1,4 +1,4 @@
-package com.seat.pollutionrobot.robot;
+package com.seat.pollutionrobot.robot.utils;
 
 import javax.inject.Named;
 import java.util.List;

@@ -1,15 +1,14 @@
 package com.seat.pollutionrobot.listener;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.seat.pollutionrobot.entities.RobotReport;
-import com.seat.pollutionrobot.json.RobotReportJSON;
 import com.seat.pollutionrobot.json.LatLngJSON;
+import com.seat.pollutionrobot.json.RobotReportJSON;
 import com.seat.pollutionrobot.publisher.ReportPublisher;
-import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.inject.Singleton;
 
 
 @Named

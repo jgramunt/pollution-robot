@@ -1,15 +1,12 @@
 package com.seat.pollutionrobot.robot;
 
 import com.seat.pollutionrobot.listener.ReportListener;
+import com.seat.pollutionrobot.robot.utils.RobotCalculator;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;
 import org.powermock.modules.junit4.PowerMockRunner;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +21,7 @@ public class RobotTest {
     private String polyline;
 
     private RobotCalculator robotCalculator = Mockito.mock(RobotCalculator.class);
+
     private ReportListener reportListener = Mockito.mock(ReportListener.class);
 
     @Before
@@ -49,14 +47,38 @@ public class RobotTest {
     }
 
     @Test
-    public void testRobot() {
-//        robotCalculator = Mockito.mock(RobotCalculator.class);
-//        reportListener = Mockito.mock(ReportListener.class);
-        Mockito.when(robotCalculator.getPollutionValuesMeanRange(any())).thenReturn("test");
-
+    public void checkIfRobotResets() throws InterruptedException {
         Robot robot = new Robot(polyline, reportListener, robotCalculator);
-        robot.start();
+
+        Executors.newSingleThreadExecutor().execute(() -> robot.start());
+        Thread.sleep(500);
+        robot.reset();
+
+        assertFalse(robot.isRobotOn());
+        assertEquals(0f, robot.getCurrentDistance(), 0.0);
+        assertEquals(0, robot.getOngoingTime());
     }
 
+    @Test
+    public void checkIfRobotCallsReportListener() {
+        Robot robot = new Robot(polyline, reportListener, robotCalculator);
+        robot.doSendPollutionInformation();
+
+        Mockito.verify(reportListener, Mockito.times(1)).publishRobotReport(any());
+    }
+
+    @Test
+    public void verifyPolylineInformationIsLoadedCorrectly() {
+        Robot robot = new Robot(polyline, reportListener, robotCalculator);
+        assertEquals(polyline, robot.getPolyline());
+    }
+
+    @Test
+    public void verifySpeedIsModified() {
+        Robot robot = new Robot(polyline, reportListener, robotCalculator);
+        assertEquals(2, robot.getSpeed(), 0.0);
+        robot.setSpeed(1.5);
+        assertEquals(1.5, robot.getSpeed(), 0.0);
+    }
 
 }

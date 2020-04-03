@@ -1,6 +1,7 @@
-package com.seat.pollutionrobot.robot;
+package com.seat.pollutionrobot.robot.utils;
 
 import com.seat.pollutionrobot.listener.ReportListener;
+import com.seat.pollutionrobot.robot.Robot;
 
 import javax.inject.Inject;
 import javax.inject.Named;

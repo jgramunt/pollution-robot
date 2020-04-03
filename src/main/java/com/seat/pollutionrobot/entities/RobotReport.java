@@ -1,7 +1,6 @@
 package com.seat.pollutionrobot.entities;
 
 import com.google.maps.model.LatLng;
-import com.seat.pollutionrobot.json.LatLngJSON;
 
 public class RobotReport {
 

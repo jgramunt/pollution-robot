@@ -2,14 +2,11 @@ package com.seat.pollutionrobot.robot;
 
 import com.google.maps.model.LatLng;
 import com.seat.pollutionrobot.entities.RobotReport;
-import com.seat.pollutionrobot.json.RobotReportJSON;
-import com.seat.pollutionrobot.json.LatLngJSON;
 import com.seat.pollutionrobot.gps.FakeGPS;
 import com.seat.pollutionrobot.listener.ReportListener;
 import com.seat.pollutionrobot.particulate_matter_reader.ParticulateMatterReader;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.seat.pollutionrobot.robot.utils.RobotCalculator;
 
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -30,8 +27,8 @@ public class Robot {
 
     private double currentDistance;
 
-    private long timeSendInterval = 1000;// 900000; //15 minutes in milliseconds = 900000
-    private double distanceRegistrationInterval = 10; //in meters
+    private long timeSendInterval = 900000; //15 minutes in milliseconds = 900000
+    private double distanceRegistrationInterval = 100; //in meters
     private double speed = 2;
 
     private long startTimestamp;
